@@ -1,6 +1,6 @@
 import pytest
 from pytest_bdd import given, when, then
-from src.rpg.character import Character
+from rpg.character import Character
 
 @pytest.fixture
 def context():
