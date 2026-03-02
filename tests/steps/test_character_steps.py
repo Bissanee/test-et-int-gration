@@ -1,4 +1,5 @@
-from pytest_bdd import when
+import pytest
+from pytest_bdd import given, when, then
 
 @when("the character takes 10 damage")
 def take_damage(context):
