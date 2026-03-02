@@ -3,7 +3,7 @@ name: CI
 on:
   push:
     branches:
-      - main
+      - dev
 
 permissions:
   contents: write
@@ -31,8 +31,8 @@ jobs:
       - name: Lancement des tests
         run: pytest -v
 
-  deploy-to-dev:
-    name: Fast-forward dev <- main
+  deploy-to-main:
+    name: Fast-forward main <- dev
     runs-on: ubuntu-latest
     needs: build-and-test
     permissions:
@@ -43,8 +43,8 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          ref: main
+          ref: dev
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Fast-forward dev vers main
-        run: git push origin ${{ github.sha }}:refs/heads/dev
+      - name: Fast-forward main vers dev
+        run: git push origin ${{ github.sha }}:refs/heads/main
