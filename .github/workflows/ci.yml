@@ -4,9 +4,9 @@ on:
   push:
     branches:
       - dev
-  pull_request:
-    branches:
-      - dev
+
+permissions:
+  contents: write
 
 jobs:
   build-and-test:
@@ -30,3 +30,21 @@ jobs:
 
       - name: Lancement des tests
         run: pytest -v
+
+  deploy-to-main:
+    name: Fast-forward main <- dev
+    runs-on: ubuntu-latest
+    needs: build-and-test
+    permissions:
+      contents: write
+
+    steps:
+      - name: Récupération du code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: dev
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Fast-forward main vers dev
+        run: git push origin ${{ github.sha }}:refs/heads/main
