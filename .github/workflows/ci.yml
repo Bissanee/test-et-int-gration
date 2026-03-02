@@ -32,6 +32,8 @@ jobs:
     name: Fast-forward main <- dev
     runs-on: ubuntu-latest
     needs: build-and-test
+    permissions:
+      contents: write
 
     steps:
       - name: Récupération du code
