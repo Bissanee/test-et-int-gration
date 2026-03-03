@@ -13,3 +13,8 @@ Feature: Gestion des personnages
     Given un nouveau personnage
     When le personnage est attaqué
     Then le personnage a 9 points de vie
+
+  Scenario: Les HP ne peuvent pas descendre sous zéro
+    Given un personnage mort
+    When le personnage est attaqué
+    Then les HP du personnage sont toujours à 0

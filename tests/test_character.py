@@ -23,9 +23,21 @@ def test_character_attacked():
     pass
 
 
+@scenario('features/character.feature', 'Les HP ne peuvent pas descendre sous zéro')
+def test_health_floor():
+    pass
+
+
 @given("un nouveau personnage")
 def new_character(context):
     context["char"] = Character("Alice")
+
+
+@given("un personnage mort")
+def dead_character(context):
+    c = Character("Alice")
+    c.health = 0
+    context["char"] = c
 
 
 @when("le personnage perd toute sa vie")
@@ -52,3 +64,8 @@ def check_dead(context):
 @then("le personnage a 9 points de vie")
 def check_9hp(context):
     assert context["char"].health == 9
+
+
+@then("les HP du personnage sont toujours à 0")
+def check_hp_floor(context):
+    assert context["char"].health == 0
