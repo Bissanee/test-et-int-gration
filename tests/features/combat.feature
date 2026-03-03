@@ -4,4 +4,3 @@ Feature: Combat system
     Given two characters
     When one character attacks the other
     Then the other character should lose 1 health point
-    
