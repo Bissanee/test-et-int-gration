@@ -13,6 +13,11 @@ def test_attack():
     pass
 
 
+@scenario('features/combat.feature', "Deux personnages s'attaquent mutuellement")
+def test_mutual_attack():
+    pass
+
+
 @given("deux personnages")
 def two_characters(context):
     context["attacker"] = Character("Alice")
