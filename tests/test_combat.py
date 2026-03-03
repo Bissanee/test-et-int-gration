@@ -11,3 +11,19 @@ def context():
 @scenario('features/combat.feature', 'Un personnage en attaque un autre')
 def test_attack():
     pass
+
+
+@given("deux personnages")
+def two_characters(context):
+    context["attacker"] = Character("Alice")
+    context["defender"] = Character("Bob")
+
+
+@when("l'un attaque l'autre")
+def attack(context):
+    context["attacker"].attack(context["defender"])
+
+
+@then("l'autre perd 1 point de vie")
+def check_damage(context):
+    assert context["defender"].health == 9
