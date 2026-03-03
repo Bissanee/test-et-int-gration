@@ -18,6 +18,11 @@ def test_character_dies():
     pass
 
 
+@scenario('features/character.feature', 'Un personnage perd 1 HP quand il est attaqué')
+def test_character_attacked():
+    pass
+
+
 @given("un nouveau personnage")
 def new_character(context):
     context["char"] = Character("Alice")
@@ -28,6 +33,12 @@ def lose_all_health(context):
     context["char"].health = 0
 
 
+@when("le personnage est attaqué")
+def character_is_attacked(context):
+    attacker = Character("Bob")
+    attacker.attack(context["char"])
+
+
 @then("le personnage a 10 points de vie")
 def check_10hp(context):
     assert context["char"].health == 10
@@ -36,3 +47,8 @@ def check_10hp(context):
 @then("le personnage est mort")
 def check_dead(context):
     assert context["char"].is_dead()
+
+
+@then("le personnage a 9 points de vie")
+def check_9hp(context):
+    assert context["char"].health == 9

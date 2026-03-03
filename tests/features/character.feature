@@ -8,3 +8,8 @@ Feature: Gestion des personnages
     Given un nouveau personnage
     When le personnage perd toute sa vie
     Then le personnage est mort
+
+  Scenario: Un personnage perd 1 HP quand il est attaqué
+    Given un nouveau personnage
+    When le personnage est attaqué
+    Then le personnage a 9 points de vie
