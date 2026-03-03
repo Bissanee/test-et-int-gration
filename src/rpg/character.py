@@ -3,5 +3,8 @@ class Character:
         self.name = name
         self.health = 10
 
+    def attack(self, other: "Character") -> None:
+        other.health -= 1
+
     def is_dead(self) -> bool:
         return self.health <= 0
