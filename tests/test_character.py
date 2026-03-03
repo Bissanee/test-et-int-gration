@@ -28,6 +28,11 @@ def test_health_floor():
     pass
 
 
+@scenario('features/character.feature', 'Un personnage mort ne peut pas attaquer')
+def test_dead_cannot_attack():
+    pass
+
+
 @given("un nouveau personnage")
 def new_character(context):
     context["char"] = Character("Alice")
@@ -51,6 +56,16 @@ def character_is_attacked(context):
     attacker.attack(context["char"])
 
 
+@when("le personnage mort tente d'attaquer")
+def dead_attacks(context):
+    target = Character("Bob")
+    try:
+        context["char"].attack(target)
+        context["error"] = None
+    except ValueError as e:
+        context["error"] = e
+
+
 @then("le personnage a 10 points de vie")
 def check_10hp(context):
     assert context["char"].health == 10
@@ -69,3 +84,9 @@ def check_9hp(context):
 @then("les HP du personnage sont toujours à 0")
 def check_hp_floor(context):
     assert context["char"].health == 0
+
+
+@then("une erreur est levée")
+def check_error(context):
+    assert context["error"] is not None
+    assert isinstance(context["error"], ValueError)

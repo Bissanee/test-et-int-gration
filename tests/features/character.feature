@@ -18,3 +18,8 @@ Feature: Gestion des personnages
     Given un personnage mort
     When le personnage est attaqué
     Then les HP du personnage sont toujours à 0
+
+  Scenario: Un personnage mort ne peut pas attaquer
+    Given un personnage mort
+    When le personnage mort tente d'attaquer
+    Then une erreur est levée
