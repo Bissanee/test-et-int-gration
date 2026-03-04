@@ -67,3 +67,12 @@ Feature: Gestion des personnages
   Scenario: Un personnage sans équipement a une armure de 0
     Given un nouveau personnage
     Then son armure est de 0
+
+  Scenario: L'armure dépend de l'équipement porté
+    Given un personnage équipé d'une armure de 3
+    Then son armure est de 3
+
+  Scenario: L'armure réduit les dégâts reçus
+    Given un personnage équipé d'une armure de 3
+    When le personnage est attaqué par un guerrier de force 4
+    Then le personnage a 8 points de vie
