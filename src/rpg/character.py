@@ -8,6 +8,11 @@ class Character:
         self.level = level
         self.force = force
         self.health = 10 + endurance + 2 * level
+        self.equipment = []
+
+    @property
+    def armor(self) -> int:
+        return sum(e.armor for e in self.equipment)
 
     def attack(self, other: "Character") -> None:
         if self.is_dead():
