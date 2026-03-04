@@ -48,6 +48,11 @@ def test_default_level():
     pass
 
 
+@scenario('features/character.feature', 'Les HP augmentent de 2 par niveau')
+def test_hp_increases_with_level():
+    pass
+
+
 @given("un nouveau personnage")
 def new_character(context):
     context["char"] = Character("Alice")
@@ -125,3 +130,13 @@ def check_15hp(context):
 @then("son niveau est 0")
 def check_default_level(context):
     assert context["char"].level == 0
+
+
+@given("un personnage de niveau 2")
+def character_level_2(context):
+    context["char"] = Character("Alice", level=2)
+
+
+@then("le personnage a 14 points de vie")
+def check_14hp(context):
+    assert context["char"].health == 14

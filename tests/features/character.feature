@@ -35,3 +35,7 @@ Feature: Gestion des personnages
   Scenario: Un personnage a un niveau 0 par défaut
     Given un nouveau personnage
     Then son niveau est 0
+
+  Scenario: Les HP augmentent de 2 par niveau
+    Given un personnage de niveau 2
+    Then le personnage a 14 points de vie
