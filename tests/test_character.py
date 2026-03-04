@@ -3,6 +3,7 @@ from unittest.mock import patch
 from pytest_bdd import scenario, given, when, then
 from rpg.character import Character
 from rpg.equipment import Equipment
+from rpg.weapon import Weapon
 
 
 @pytest.fixture
@@ -97,6 +98,11 @@ def test_armor_reduces_damage():
 
 @scenario("features/character.feature", "Un personnage sans arme n'a pas d'arme équipée")
 def test_no_weapon_by_default():
+    pass
+
+
+@scenario("features/character.feature", "Les dégâts dépendent de l'arme équipée")
+def test_damage_depends_on_weapon():
     pass
 
 
@@ -286,3 +292,23 @@ def check_8hp(context):
 @then("son arme est nulle")
 def check_no_weapon(context):
     assert context["char"].weapon is None
+
+
+@given("un personnage équipé d'une épée de dégât 3")
+def character_with_sword(context):
+    char = Character("Alice")
+    char.weapon = Weapon("Épée", damage=3)
+    context["char"] = char
+
+
+@when("il attaque une cible avec son arme")
+def attack_with_weapon(context):
+    target = Character("Bob")
+    context["target"] = target
+    with patch("rpg.character.randint", return_value=3):
+        context["char"].attack(target)
+
+
+@then("la cible perd 3 points de vie")
+def check_target_lost_3hp(context):
+    assert context["target"].health == 7

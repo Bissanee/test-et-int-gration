@@ -80,3 +80,8 @@ Feature: Gestion des personnages
   Scenario: Un personnage sans arme n'a pas d'arme équipée
     Given un nouveau personnage
     Then son arme est nulle
+
+  Scenario: Les dégâts dépendent de l'arme équipée
+    Given un personnage équipé d'une épée de dégât 3
+    When il attaque une cible avec son arme
+    Then la cible perd 3 points de vie
