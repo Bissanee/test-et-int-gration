@@ -38,6 +38,11 @@ def test_default_endurance():
     pass
 
 
+@scenario('features/character.feature', 'Les HP dépendent de l\'endurance')
+def test_hp_depends_on_endurance():
+    pass
+
+
 @given("un nouveau personnage")
 def new_character(context):
     context["char"] = Character("Alice")
@@ -48,6 +53,11 @@ def dead_character(context):
     c = Character("Alice")
     c.health = 0
     context["char"] = c
+
+
+@given("un personnage avec une endurance de 5")
+def character_with_endurance(context):
+    context["char"] = Character("Alice", endurance=5)
 
 
 @when("le personnage perd toute sa vie")
@@ -100,3 +110,8 @@ def check_error(context):
 @then("son endurance est de 0")
 def check_default_endurance(context):
     assert context["char"].endurance == 0
+
+
+@then("le personnage a 15 points de vie")
+def check_15hp(context):
+    assert context["char"].health == 15
