@@ -2,6 +2,7 @@ import pytest
 from unittest.mock import patch
 from pytest_bdd import scenario, given, when, then
 from rpg.character import Character
+from rpg.equipment import Equipment
 
 
 @pytest.fixture
@@ -76,6 +77,21 @@ def test_damage_random_min():
 
 @scenario('features/character.feature', 'Les dégâts sont aléatoires - maximum')
 def test_damage_random_max():
+    pass
+
+
+@scenario('features/character.feature', 'Un personnage sans équipement a une armure de 0')
+def test_default_armor():
+    pass
+
+
+@scenario("features/character.feature", "L'armure dépend de l'équipement porté")
+def test_armor_from_equipment():
+    pass
+
+
+@scenario("features/character.feature", "L'armure réduit les dégâts reçus")
+def test_armor_reduces_damage():
     pass
 
 
@@ -230,3 +246,33 @@ def check_target_lost_0hp(context):
 @then("la cible perd 1 point de vie")
 def check_target_lost_1hp(context):
     assert context["target"].health == 9
+
+
+@then("son armure est de 0")
+def check_default_armor(context):
+    assert context["char"].armor == 0
+
+
+@given("un personnage équipé d'une armure de 3")
+def character_with_armor(context):
+    char = Character("Alice")
+    char.equipment.append(Equipment("Bouclier", armor=3))
+    context["char"] = char
+
+
+@then("son armure est de 3")
+def check_armor_3(context):
+    assert context["char"].armor == 3
+
+
+@when("le personnage est attaqué par un guerrier de force 4")
+def attacked_by_strong_warrior(context):
+    attacker = Character("Bob", force=4)
+    max_dmg = 1 + 4
+    with patch("rpg.character.randint", return_value=max_dmg):
+        attacker.attack(context["char"])
+
+
+@then("le personnage a 8 points de vie")
+def check_8hp(context):
+    assert context["char"].health == 8
