@@ -1,7 +1,7 @@
 class Character:
-    def __init__(self, name: str, endurance: int = 0):
+    def __init__(self, name: str):
         self.name = name
-        self.health = 10 + endurance
+        self.health = 10
 
     def attack(self, other: "Character") -> None:
         if self.is_dead():

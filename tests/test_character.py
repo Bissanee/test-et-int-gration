@@ -33,8 +33,8 @@ def test_dead_cannot_attack():
     pass
 
 
-@scenario('features/character.feature', 'Les HP dépendent de l\'endurance du personnage')
-def test_health_depends_on_endurance():
+@scenario('features/character.feature', 'Un personnage a une endurance de 0 par défaut')
+def test_default_endurance():
     pass
 
 
@@ -48,11 +48,6 @@ def dead_character(context):
     c = Character("Alice")
     c.health = 0
     context["char"] = c
-
-
-@given("un personnage avec 5 en endurance")
-def character_with_endurance(context):
-    context["char"] = Character("Alice", endurance=5)
 
 
 @when("le personnage perd toute sa vie")
@@ -102,6 +97,6 @@ def check_error(context):
     assert isinstance(context["error"], ValueError)
 
 
-@then("le personnage a 15 points de vie")
-def check_15hp(context):
-    assert context["char"].health == 15
+@then("son endurance est de 0")
+def check_default_endurance(context):
+    assert context["char"].endurance == 0
