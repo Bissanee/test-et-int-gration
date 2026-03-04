@@ -3,7 +3,7 @@ class Character:
         self.name = name
         self.endurance = endurance
         self.level = level
-        self.health = 10 + endurance
+        self.health = 10 + endurance + 2 * level
 
     def attack(self, other: "Character") -> None:
         if self.is_dead():
