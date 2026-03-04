@@ -39,3 +39,8 @@ Feature: Gestion des personnages
   Scenario: Les HP augmentent de 2 par niveau
     Given un personnage de niveau 2
     Then le personnage a 14 points de vie
+
+  Scenario: Les dégâts augmentent de 2 par niveau
+    Given un personnage de niveau 2
+    When il attaque une cible
+    Then la cible perd 5 points de vie

@@ -53,6 +53,11 @@ def test_hp_increases_with_level():
     pass
 
 
+@scenario('features/character.feature', 'Les dégâts augmentent de 2 par niveau')
+def test_damage_increases_with_level():
+    pass
+
+
 @given("un nouveau personnage")
 def new_character(context):
     context["char"] = Character("Alice")
@@ -140,3 +145,16 @@ def character_level_2(context):
 @then("le personnage a 14 points de vie")
 def check_14hp(context):
     assert context["char"].health == 14
+
+
+@when("il attaque une cible")
+def attacker_attacks_target(context):
+    target = Character("Bob")
+    context["attacker"] = context["char"]
+    context["target"] = target
+    context["attacker"].attack(target)
+
+
+@then("la cible perd 5 points de vie")
+def check_target_lost_5hp(context):
+    assert context["target"].health == 5
