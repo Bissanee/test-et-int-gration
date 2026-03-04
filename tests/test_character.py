@@ -63,6 +63,11 @@ def test_default_force():
     pass
 
 
+@scenario('features/character.feature', 'Les dégâts dépendent de la force')
+def test_damage_depends_on_force():
+    pass
+
+
 @given("un nouveau personnage")
 def new_character(context):
     context["char"] = Character("Alice")
@@ -168,3 +173,13 @@ def check_target_lost_5hp(context):
 @then("sa force est de 0")
 def check_default_force(context):
     assert context["char"].force == 0
+
+
+@given("un personnage avec une force de 3")
+def character_with_force_3(context):
+    context["char"] = Character("Alice", force=3)
+
+
+@then("la cible perd 4 points de vie")
+def check_target_lost_4hp(context):
+    assert context["target"].health == 6

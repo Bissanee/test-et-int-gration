@@ -48,3 +48,8 @@ Feature: Gestion des personnages
   Scenario: Un personnage a une force de 0 par défaut
     Given un nouveau personnage
     Then sa force est de 0
+
+  Scenario: Les dégâts dépendent de la force
+    Given un personnage avec une force de 3
+    When il attaque une cible
+    Then la cible perd 4 points de vie
