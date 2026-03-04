@@ -1,7 +1,8 @@
 class Character:
-    def __init__(self, name: str, endurance: int = 0):
+    def __init__(self, name: str, endurance: int = 0, level: int = 0):
         self.name = name
         self.endurance = endurance
+        self.level = level
         self.health = 10 + endurance
 
     def attack(self, other: "Character") -> None:
