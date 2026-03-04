@@ -31,3 +31,7 @@ Feature: Gestion des personnages
   Scenario: Les HP dépendent de l'endurance
     Given un personnage avec une endurance de 5
     Then le personnage a 15 points de vie
+
+  Scenario: Un personnage a un niveau 0 par défaut
+    Given un nouveau personnage
+    Then son niveau est 0
