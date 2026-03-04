@@ -2,6 +2,7 @@ import pytest
 from unittest.mock import patch
 from pytest_bdd import scenario, given, when, then
 from rpg.character import Character
+from rpg.equipment import Equipment
 
 
 @pytest.fixture
@@ -76,6 +77,11 @@ def test_damage_random_min():
 
 @scenario('features/character.feature', 'Les dégâts sont aléatoires - maximum')
 def test_damage_random_max():
+    pass
+
+
+@scenario('features/character.feature', 'Un personnage sans équipement a une armure de 0')
+def test_default_armor():
     pass
 
 
@@ -230,3 +236,8 @@ def check_target_lost_0hp(context):
 @then("la cible perd 1 point de vie")
 def check_target_lost_1hp(context):
     assert context["target"].health == 9
+
+
+@then("son armure est de 0")
+def check_default_armor(context):
+    assert context["char"].armor == 0

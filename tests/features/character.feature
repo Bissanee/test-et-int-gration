@@ -63,3 +63,7 @@ Feature: Gestion des personnages
     Given un nouveau personnage
     When il attaque une cible avec un jet maximum
     Then la cible perd 1 point de vie
+
+  Scenario: Un personnage sans équipement a une armure de 0
+    Given un nouveau personnage
+    Then son armure est de 0
