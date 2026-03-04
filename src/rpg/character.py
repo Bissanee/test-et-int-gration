@@ -9,6 +9,7 @@ class Character:
         self.force = force
         self.health = 10 + endurance + 2 * level
         self.equipment = []
+        self.weapon = None
 
     @property
     def armor(self) -> int:
