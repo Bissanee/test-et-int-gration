@@ -44,3 +44,7 @@ Feature: Gestion des personnages
     Given un personnage de niveau 2
     When il attaque une cible
     Then la cible perd 5 points de vie
+
+  Scenario: Un personnage a une force de 0 par défaut
+    Given un nouveau personnage
+    Then sa force est de 0
