@@ -18,7 +18,8 @@ class Character:
     def attack(self, other: "Character") -> None:
         if self.is_dead():
             raise ValueError(f"{self.name} est mort et ne peut pas attaquer.")
-        max_damage = 1 + self.force + 2 * self.level
+        base = self.weapon.damage if self.weapon else 1
+        max_damage = base + self.force + 2 * self.level
         raw_damage = randint(0, max_damage)
         damage = max(0, raw_damage - other.armor)
         other.health = max(0, other.health - damage)
