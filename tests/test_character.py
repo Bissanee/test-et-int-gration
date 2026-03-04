@@ -1,4 +1,5 @@
 import pytest
+from unittest.mock import patch
 from pytest_bdd import scenario, given, when, then
 from rpg.character import Character
 
@@ -78,6 +79,8 @@ def test_damage_random_max():
     pass
 
 
+# --- Given ---
+
 @given("un nouveau personnage")
 def new_character(context):
     context["char"] = Character("Alice")
@@ -95,6 +98,18 @@ def character_with_endurance(context):
     context["char"] = Character("Alice", endurance=5)
 
 
+@given("un personnage de niveau 2")
+def character_level_2(context):
+    context["char"] = Character("Alice", level=2)
+
+
+@given("un personnage avec une force de 3")
+def character_with_force_3(context):
+    context["char"] = Character("Alice", force=3)
+
+
+# --- When ---
+
 @when("le personnage perd toute sa vie")
 def lose_all_health(context):
     context["char"].health = 0
@@ -103,7 +118,8 @@ def lose_all_health(context):
 @when("le personnage est attaqué")
 def character_is_attacked(context):
     attacker = Character("Bob")
-    attacker.attack(context["char"])
+    with patch("rpg.character.randint", return_value=1):
+        attacker.attack(context["char"])
 
 
 @when("le personnage mort tente d'attaquer")
@@ -115,6 +131,35 @@ def dead_attacks(context):
     except ValueError as e:
         context["error"] = e
 
+
+@when("il attaque une cible")
+def attacker_attacks_target(context):
+    target = Character("Bob")
+    context["attacker"] = context["char"]
+    context["target"] = target
+    d = 1 + context["char"].level * 2 + context["char"].force
+    with patch("rpg.character.randint", return_value=d):
+        context["attacker"].attack(target)
+
+
+@when("il attaque une cible avec un jet de 0")
+def attacker_attacks_with_min_roll(context):
+    target = Character("Bob")
+    context["target"] = target
+    with patch("rpg.character.randint", return_value=0):
+        context["char"].attack(target)
+
+
+@when("il attaque une cible avec un jet maximum")
+def attacker_attacks_with_max_roll(context):
+    target = Character("Bob")
+    context["target"] = target
+    d = 1 + context["char"].level * 2 + context["char"].force
+    with patch("rpg.character.randint", return_value=d):
+        context["char"].attack(target)
+
+
+# --- Then ---
 
 @then("le personnage a 10 points de vie")
 def check_10hp(context):
@@ -157,22 +202,9 @@ def check_default_level(context):
     assert context["char"].level == 0
 
 
-@given("un personnage de niveau 2")
-def character_level_2(context):
-    context["char"] = Character("Alice", level=2)
-
-
 @then("le personnage a 14 points de vie")
 def check_14hp(context):
     assert context["char"].health == 14
-
-
-@when("il attaque une cible")
-def attacker_attacks_target(context):
-    target = Character("Bob")
-    context["attacker"] = context["char"]
-    context["target"] = target
-    context["attacker"].attack(target)
 
 
 @then("la cible perd 5 points de vie")
@@ -185,11 +217,16 @@ def check_default_force(context):
     assert context["char"].force == 0
 
 
-@given("un personnage avec une force de 3")
-def character_with_force_3(context):
-    context["char"] = Character("Alice", force=3)
-
-
 @then("la cible perd 4 points de vie")
 def check_target_lost_4hp(context):
     assert context["target"].health == 6
+
+
+@then("la cible ne perd aucun point de vie")
+def check_target_lost_0hp(context):
+    assert context["target"].health == 10
+
+
+@then("la cible perd 1 point de vie")
+def check_target_lost_1hp(context):
+    assert context["target"].health == 9
