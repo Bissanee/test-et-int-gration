@@ -68,6 +68,16 @@ def test_damage_depends_on_force():
     pass
 
 
+@scenario('features/character.feature', 'Les dégâts sont aléatoires - minimum')
+def test_damage_random_min():
+    pass
+
+
+@scenario('features/character.feature', 'Les dégâts sont aléatoires - maximum')
+def test_damage_random_max():
+    pass
+
+
 @given("un nouveau personnage")
 def new_character(context):
     context["char"] = Character("Alice")
