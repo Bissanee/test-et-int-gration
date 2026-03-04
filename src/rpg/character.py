@@ -1,4 +1,4 @@
-class Character:
+class Character
     def __init__(self, name: str, endurance: int = 0):
         self.name = name
         self.endurance = endurance
