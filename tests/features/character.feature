@@ -76,3 +76,7 @@ Feature: Gestion des personnages
     Given un personnage équipé d'une armure de 3
     When le personnage est attaqué par un guerrier de force 4
     Then le personnage a 8 points de vie
+
+  Scenario: Un personnage sans arme n'a pas d'arme équipée
+    Given un nouveau personnage
+    Then son arme est nulle

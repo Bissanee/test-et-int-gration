@@ -95,6 +95,11 @@ def test_armor_reduces_damage():
     pass
 
 
+@scenario("features/character.feature", "Un personnage sans arme n'a pas d'arme équipée")
+def test_no_weapon_by_default():
+    pass
+
+
 # --- Given ---
 
 @given("un nouveau personnage")
@@ -276,3 +281,8 @@ def attacked_by_strong_warrior(context):
 @then("le personnage a 8 points de vie")
 def check_8hp(context):
     assert context["char"].health == 8
+
+
+@then("son arme est nulle")
+def check_no_weapon(context):
+    assert context["char"].weapon is None
