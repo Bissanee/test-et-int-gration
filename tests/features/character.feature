@@ -23,3 +23,7 @@ Feature: Gestion des personnages
     Given un personnage mort
     When le personnage mort tente d'attaquer
     Then une erreur est levée
+
+  Scenario: Les HP dépendent de l'endurance du personnage
+    Given un personnage avec 5 en endurance
+    Then le personnage a 15 points de vie

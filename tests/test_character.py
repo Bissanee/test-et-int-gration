@@ -33,6 +33,11 @@ def test_dead_cannot_attack():
     pass
 
 
+@scenario('features/character.feature', 'Les HP dépendent de l\'endurance du personnage')
+def test_health_depends_on_endurance():
+    pass
+
+
 @given("un nouveau personnage")
 def new_character(context):
     context["char"] = Character("Alice")
@@ -43,6 +48,11 @@ def dead_character(context):
     c = Character("Alice")
     c.health = 0
     context["char"] = c
+
+
+@given("un personnage avec 5 en endurance")
+def character_with_endurance(context):
+    context["char"] = Character("Alice", endurance=5)
 
 
 @when("le personnage perd toute sa vie")
@@ -90,3 +100,8 @@ def check_hp_floor(context):
 def check_error(context):
     assert context["error"] is not None
     assert isinstance(context["error"], ValueError)
+
+
+@then("le personnage a 15 points de vie")
+def check_15hp(context):
+    assert context["char"].health == 15
