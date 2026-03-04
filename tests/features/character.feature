@@ -53,3 +53,13 @@ Feature: Gestion des personnages
     Given un personnage avec une force de 3
     When il attaque une cible
     Then la cible perd 4 points de vie
+
+  Scenario: Les dégâts sont aléatoires - minimum
+    Given un nouveau personnage
+    When il attaque une cible avec un jet de 0
+    Then la cible ne perd aucun point de vie
+
+  Scenario: Les dégâts sont aléatoires - maximum
+    Given un nouveau personnage
+    When il attaque une cible avec un jet maximum
+    Then la cible perd 1 point de vie

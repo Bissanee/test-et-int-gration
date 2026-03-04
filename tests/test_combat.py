@@ -1,4 +1,5 @@
 import pytest
+from unittest.mock import patch
 from pytest_bdd import scenario, given, when, then
 from rpg.character import Character
 
@@ -26,12 +27,14 @@ def two_characters(context):
 
 @when("l'un attaque l'autre")
 def attack(context):
-    context["attacker"].attack(context["defender"])
+    with patch("rpg.character.randint", return_value=1):
+        context["attacker"].attack(context["defender"])
 
 
 @when("l'autre riposte")
 def attack_back(context):
-    context["defender"].attack(context["attacker"])
+    with patch("rpg.character.randint", return_value=1):
+        context["defender"].attack(context["attacker"])
 
 
 @then("l'autre perd 1 point de vie")
