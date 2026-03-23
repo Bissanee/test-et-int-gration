@@ -145,7 +145,7 @@ def lose_all_health(context):
 @when("le personnage est attaqué")
 def character_is_attacked(context):
     attacker = Character("Bob")
-    with patch("rpg.character.randint", return_value=1):
+    with patch("rpg.random_gen.randint", return_value=1):
         attacker.attack(context["char"])
 
 
@@ -165,7 +165,7 @@ def attacker_attacks_target(context):
     context["attacker"] = context["char"]
     context["target"] = target
     d = 1 + context["char"].level * 2 + context["char"].force
-    with patch("rpg.character.randint", return_value=d):
+    with patch("rpg.random_gen.randint", return_value=d):
         context["attacker"].attack(target)
 
 
@@ -173,7 +173,7 @@ def attacker_attacks_target(context):
 def attacker_attacks_with_min_roll(context):
     target = Character("Bob")
     context["target"] = target
-    with patch("rpg.character.randint", return_value=0):
+    with patch("rpg.random_gen.randint", return_value=0):
         context["char"].attack(target)
 
 
@@ -182,7 +182,7 @@ def attacker_attacks_with_max_roll(context):
     target = Character("Bob")
     context["target"] = target
     d = 1 + context["char"].level * 2 + context["char"].force
-    with patch("rpg.character.randint", return_value=d):
+    with patch("rpg.random_gen.randint", return_value=d):
         context["char"].attack(target)
 
 
@@ -280,7 +280,7 @@ def check_armor_3(context):
 def attacked_by_strong_warrior(context):
     attacker = Character("Bob", force=4)
     max_dmg = 1 + 4
-    with patch("rpg.character.randint", return_value=max_dmg):
+    with patch("rpg.random_gen.randint", return_value=max_dmg):
         attacker.attack(context["char"])
 
 
@@ -305,7 +305,7 @@ def character_with_sword(context):
 def attack_with_weapon(context):
     target = Character("Bob")
     context["target"] = target
-    with patch("rpg.character.randint", return_value=3):
+    with patch("rpg.random_gen.randint", return_value=3):
         context["char"].attack(target)
 
 

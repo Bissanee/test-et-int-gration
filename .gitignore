@@ -4,6 +4,8 @@ __pycache__/
 
 # Pytest
 .pytest_cache/
+.coverage
+htmlcov/
 
 venv/
 __pycache__/

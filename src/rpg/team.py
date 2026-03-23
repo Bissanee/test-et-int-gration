@@ -1,4 +1,6 @@
 import random
+from typing import Callable
+
 from rpg.character import Character
 
 
@@ -14,7 +16,18 @@ class Team:
         return len(self.alive_members()) == 0
 
 
-def duel(team1: Team, team2: Team) -> Team:
+TargetSelector = Callable[[Character, list[Character]], Character]
+
+
+def random_target_selector(_: Character, enemies: list[Character]) -> Character:
+    return random.choice(enemies)
+
+
+def duel(
+    team1: Team,
+    team2: Team,
+    target_selector: TargetSelector = random_target_selector,
+) -> Team:
     """
     Simule un duel 2v2 tour par tour.
     Chaque personnage vivant attaque un ennemi vivant aléatoire.
@@ -34,7 +47,7 @@ def duel(team1: Team, team2: Team) -> Team:
             if not enemies:
                 break
 
-            target = random.choice(enemies)
+            target = target_selector(attacker, enemies)
             attacker.attack(target)
 
     return team1 if not team1.is_defeated() else team2

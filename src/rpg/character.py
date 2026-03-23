@@ -1,4 +1,6 @@
-from random import randint
+from typing import Optional
+
+from rpg.random_gen import DEFAULT_RNG, RandomGenerator
 
 
 class Character:
@@ -15,12 +17,16 @@ class Character:
     def armor(self) -> int:
         return sum(e.armor for e in self.equipment)
 
-    def attack(self, other: "Character") -> None:
+    @property
+    def max_damage(self) -> int:
+        base = self.weapon.damage if self.weapon else 1
+        return base + self.force + 2 * self.level
+
+    def attack(self, other: "Character", rng: Optional[RandomGenerator] = None) -> None:
         if self.is_dead():
             raise ValueError(f"{self.name} est mort et ne peut pas attaquer.")
-        base = self.weapon.damage if self.weapon else 1
-        max_damage = base + self.force + 2 * self.level
-        raw_damage = randint(0, max_damage)
+        random_generator = rng if rng is not None else DEFAULT_RNG
+        raw_damage = random_generator.pick_between_zero_and(self.max_damage)
         damage = max(0, raw_damage - other.armor)
         other.health = max(0, other.health - damage)
 

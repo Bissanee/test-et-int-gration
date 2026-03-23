@@ -54,13 +54,13 @@ def two_teams(context):
 
 @when("l'un attaque l'autre")
 def attack(context):
-    with patch("rpg.character.randint", return_value=1):
+    with patch("rpg.random_gen.randint", return_value=1):
         context["attacker"].attack(context["defender"])
 
 
 @when("l'autre riposte")
 def attack_back(context):
-    with patch("rpg.character.randint", return_value=1):
+    with patch("rpg.random_gen.randint", return_value=1):
         context["defender"].attack(context["attacker"])
 
 
