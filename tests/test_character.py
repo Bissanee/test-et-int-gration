@@ -3,6 +3,7 @@ from unittest.mock import patch
 from pytest_bdd import scenario, given, when, then
 from rpg.character import Character
 from rpg.equipment import Equipment
+from rpg.random_gen import FixedRandomGenerator
 from rpg.weapon import Weapon
 
 
@@ -106,6 +107,21 @@ def test_damage_depends_on_weapon():
     pass
 
 
+@scenario("features/character.feature", "Un personnage a une AGI de 0 par défaut")
+def test_default_agility():
+    pass
+
+
+@scenario("features/character.feature", "Un personnage a une CHN de 0 par défaut")
+def test_default_chance():
+    pass
+
+
+@scenario("features/character.feature", "Un personnage gagne un point de caractéristique aléatoire après un kill")
+def test_gain_random_stat_on_kill():
+    pass
+
+
 # --- Given ---
 
 @given("un nouveau personnage")
@@ -133,6 +149,21 @@ def character_level_2(context):
 @given("un personnage avec une force de 3")
 def character_with_force_3(context):
     context["char"] = Character("Alice", force=3)
+
+
+@given("un attaquant qui peut tuer sa cible en un coup")
+def killer_and_target(context):
+    attacker = Character("Alice", force=100)
+    target = Character("Bob")
+    target.health = 1
+    context["attacker"] = attacker
+    context["target"] = target
+    context["before_stats"] = {
+        "endurance": attacker.endurance,
+        "force": attacker.force,
+        "agility": attacker.agility,
+        "chance": attacker.chance,
+    }
 
 
 # --- When ---
@@ -309,6 +340,36 @@ def attack_with_weapon(context):
         context["char"].attack(target)
 
 
+@when("il tue sa cible")
+def kill_target(context):
+    with patch("rpg.character.random.choice", return_value="agility"):
+        context["attacker"].attack(context["target"], rng=FixedRandomGenerator(999))
+
+
 @then("la cible perd 3 points de vie")
 def check_target_lost_3hp(context):
     assert context["target"].health == 7
+
+
+@then("son AGI est de 0")
+def check_default_agility(context):
+    assert context["char"].agility == 0
+
+
+@then("sa CHN est de 0")
+def check_default_chance(context):
+    assert context["char"].chance == 0
+
+
+@then("il gagne un point de caractéristique")
+def check_gain_random_stat(context):
+    attacker = context["attacker"]
+    before = context["before_stats"]
+    deltas = {
+        "endurance": attacker.endurance - before["endurance"],
+        "force": attacker.force - before["force"],
+        "agility": attacker.agility - before["agility"],
+        "chance": attacker.chance - before["chance"],
+    }
+    assert context["target"].is_dead()
+    assert sum(deltas.values()) == 1

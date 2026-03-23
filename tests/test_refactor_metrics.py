@@ -1,7 +1,9 @@
 from rpg.battle import first_attacker
 from rpg.character import Character
 from rpg.random_gen import FixedRandomGenerator
-from rpg.team import Team, duel
+from unittest.mock import patch
+
+from rpg.team import Team, duel, random_target_selector
 
 
 def test_fixed_random_generator_bounds_value():
@@ -40,3 +42,11 @@ def test_duel_breaks_when_no_enemy_left_in_round():
         Character.attack = original_attack
 
     assert winner is team1
+
+
+def test_random_target_selector_delegates_to_random_choice():
+    attacker = Character("A")
+    enemies = [Character("E1"), Character("E2")]
+    with patch("rpg.team.random.choice", return_value=enemies[1]):
+        selected = random_target_selector(attacker, enemies)
+    assert selected is enemies[1]

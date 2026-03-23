@@ -85,3 +85,16 @@ Feature: Gestion des personnages
     Given un personnage équipé d'une épée de dégât 3
     When il attaque une cible avec son arme
     Then la cible perd 3 points de vie
+
+  Scenario: Un personnage a une AGI de 0 par défaut
+    Given un nouveau personnage
+    Then son AGI est de 0
+
+  Scenario: Un personnage a une CHN de 0 par défaut
+    Given un nouveau personnage
+    Then sa CHN est de 0
+
+  Scenario: Un personnage gagne un point de caractéristique aléatoire après un kill
+    Given un attaquant qui peut tuer sa cible en un coup
+    When il tue sa cible
+    Then il gagne un point de caractéristique
