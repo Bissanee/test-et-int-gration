@@ -54,7 +54,7 @@ jobs:
 
           UNIQUE_ID="${{ github.run_id }}"
           FAILURE_BRANCH="failures/${UNIQUE_ID}"
-          PREV_SHA=$(git rev-parse HEAD@{1})
+          PREV_SHA=$(git rev-parse HEAD@{1} || git rev-parse HEAD^)
 
           git checkout dev2
           git checkout -b $FAILURE_BRANCH
