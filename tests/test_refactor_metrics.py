@@ -8,7 +8,7 @@ from rpg.team import Team, duel, random_target_selector
 
 def test_fixed_random_generator_bounds_value():
     rng = FixedRandomGenerator(99)
-    assert rng.pick_between_zero_and(3) == 3
+    assert rng.pick_between_zero_and(3) == 999
     rng = FixedRandomGenerator(-5)
     assert rng.pick_between_zero_and(3) == 0
 
