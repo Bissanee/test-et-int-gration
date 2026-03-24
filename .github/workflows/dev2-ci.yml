@@ -37,7 +37,7 @@ jobs:
         run: pytest -v
 
       - name: Fast-forward main
-        if: steps.run_tests.outcome == 'success'
+        if: ${{ success() && steps.run_tests.outcome == 'success' }}
         run: |
           git config user.name "github-actions"
           git config user.email "actions@github.com"
@@ -47,7 +47,7 @@ jobs:
           git push origin main
 
       - name: Tests failed - create failure branch and rollback dev2
-        if: steps.run_tests.outcome == 'failure'
+        if: ${{ always() && steps.run_tests.outcome == 'failure' }}
         run: |
           git config user.name "github-actions"
           git config user.email "actions@github.com"
