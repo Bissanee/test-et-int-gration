@@ -52,10 +52,11 @@ jobs:
           git config user.name "github-actions"
           git config user.email "actions@github.com"
 
-          SHORT_SHA=$(git rev-parse --short HEAD)
-          FAILURE_BRANCH="failure/${SHORT_SHA}"
-          PREV_SHA=$(git rev-parse HEAD^)
+          UNIQUE_ID="${{ github.run_id }}"
+          FAILURE_BRANCH="failures/${UNIQUE_ID}"
+          PREV_SHA=$(git rev-parse HEAD@{1})
 
+          git checkout dev2
           git checkout -b $FAILURE_BRANCH
           git push origin $FAILURE_BRANCH
 
